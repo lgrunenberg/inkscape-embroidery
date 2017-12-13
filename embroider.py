@@ -152,8 +152,13 @@ class PatchList:
 		list_of_patchLists = self.partition_by_color()
 		for patchList in list_of_patchLists:
 			patchList.traveling_salesman()
-		return PatchList(reduce(operator.add,
-			map(lambda pl: pl.patches, list_of_patchLists)))
+        try:
+            reducedList = reduce(operator.add,
+                map(lambda pl: pl.patches, list_of_patchLists))
+        except TypeError:
+            sys.stderr.write("No vectors found. Maybe nothing suitable selected?\n")
+            exit(1)
+        return PatchList(reducedList)
 
 #	# TODO apparently dead code; replaced by partition_by_color above
 #	def clump_like_colors_together(self):
